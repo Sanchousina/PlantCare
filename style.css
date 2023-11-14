@@ -73,5 +73,24 @@ h1 {
 
 .column-content {
   background-color: #e4f9ef;
-  padding: 50px 30px;
+  padding: 40px 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.column-content > *:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.col_img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 30px !important;
+}
+
+img {
+  max-width: 100%;
 }
