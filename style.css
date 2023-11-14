@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .main {
   flex: 1 1 auto;
+  margin: 0 auto;
 }
 
 .header {
@@ -54,4 +55,23 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 48px;
   font-weight: 600;
+}
+
+.main {
+  padding: 70px 15px 20px 15px;
+}
+
+.dashboard_items {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dashboard__column {
+  flex: 0 1 calc(100% / 4);
+  padding: 15px;
+}
+
+.column-content {
+  background-color: #e4f9ef;
+  padding: 50px 30px;
 }
