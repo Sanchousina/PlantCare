@@ -63,7 +63,7 @@ h1 {
   font-weight: 600;
   color: #315041;
   max-width: 700px;
-  margin: 0 auto 60px;
+  margin: 0 auto 40px;
 }
 
 .main {
@@ -102,6 +102,15 @@ h1 {
 
 img {
   max-width: 100%;
+}
+
+.statsBtn {
+  background-color: #508068;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 16px;
 }
 
 @media (max-width: 992px) {

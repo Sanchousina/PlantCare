@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
 </head>
 <body>
   <div class="wrapper">
@@ -56,13 +57,33 @@
             <h2>Soil moisture</h2>
             <div id="currSoilValue">[value]</div>
             <div id="currSoilInterpret">[Interpretation of a value]</div>
+            <button class="statsBtn" id="openMoistureStatsBtn">Show Statistics</button>
           </div>
         </section>
+      </div>
+
+      <!-- Moisture Stats Modal -->
+      <div id="moistureStatsModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" id="moistureStatsModalCloseBtn">&times;</span>
+                <h2>Light Stats</h2>
+            </div>
+            <div class="modal-body">
+                <!--Line Chart-->
+                <div class="chart-container">
+                    <canvas id="moisture-chart"></canvas>
+                </div>
+            </div>
+        </div>
       </div>
     </main>
     <footer class="footer">
       <p>© 2023 Oleksandra</p>
     </footer>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
