@@ -3,21 +3,28 @@
 
 let statsModal = document.getElementById("statsModal"); //TODO: Implement this
 
+let statsHeader = document.querySelector(".modal-header>h2");
+
 // Get the button that opens the modal
 let moistureStatsModalBtn = document.getElementById("openMoistureStatsBtn"); //TODO: Implement this
 let lightStatsModalBtn = document.getElementById("openLightStatsBtn");
 let humidityStatsModalBtn = document.getElementById("openHumidityStatsBtn");
 let temperStatsModalBtn = document.getElementById("openTemperStatsBtn");
 
+const statsModalBtns = [moistureStatsModalBtn, lightStatsModalBtn, humidityStatsModalBtn, temperStatsModalBtn];
+
 // Get the <span> element that closes the moistureStatsModal
 let statsModalCloseBtn = document.getElementById("statsModalCloseBtn"); //TODO: Implement this
 
 // When the user clicks the moistureStatsModalBtn button, open the modal (use css property display:none / display:block)
 //TODO: Implement this
-moistureStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-lightStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-humidityStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-temperStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+
+statsModalBtns.forEach(el => el.addEventListener('click', () => statsModal.style.display = 'block'));
+
+// moistureStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+// lightStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+// humidityStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+// temperStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
 
 
 // When the user clicks on <span> (x) ("moistureStatsModalCloseBtn"), close the modal
@@ -35,70 +42,92 @@ function clearChart(chart) {
   }
 }
 
-moistureStatsModalBtn.addEventListener('click', () => {
-  const hourMap = transformMeasures(measures, 'moisture');
+statsModalBtns.forEach((el, i) => {
+  const types = ['moisture', 'light', 'humidity', 'temperature'];
 
-  let chartLabels=[];
-  let chartData=[];
+  el.addEventListener('click', () => {
+    const hourMap = transformMeasures(measures, types[i]);
+  
+    let chartLabels=[];
+    let chartData=[];
+  
+    for (let [key, value] of Object.entries(hourMap)) {
+      chartLabels.push(key);
+      chartData.push(calcAverage(value));
+    }
 
-  for (let [key, value] of Object.entries(hourMap)) {
-    chartLabels.push(key);
-    chartData.push(calcAverage(value));
-  }
-
-  const chart = createChart(chartLabels, chartData, 'moisture');
-
-  clearChart(chart);
+    statsHeader.innerText = `${types[i]} stats`
+  
+    const chart = createChart(chartLabels, chartData, types[i]);
+  
+    clearChart(chart);
+  })
 })
 
-lightStatsModalBtn.addEventListener('click', () => {
-  const hourMap = transformMeasures(measures, 'light');
+// moistureStatsModalBtn.addEventListener('click', () => {
+//   const hourMap = transformMeasures(measures, 'moisture');
 
-  let chartLabels=[];
-  let chartData=[];
+//   let chartLabels=[];
+//   let chartData=[];
 
-  for (let [key, value] of Object.entries(hourMap)) {
-    chartLabels.push(key);
-    chartData.push(calcAverage(value));
-  }
+//   for (let [key, value] of Object.entries(hourMap)) {
+//     chartLabels.push(key);
+//     chartData.push(calcAverage(value));
+//   }
 
-  const chart = createChart(chartLabels, chartData, 'light');
+//   const chart = createChart(chartLabels, chartData, 'moisture');
 
-  clearChart(chart);
-})
+//   clearChart(chart);
+// })
 
-humidityStatsModalBtn.addEventListener('click', () => {
-  // No Humidity Data => NaN
-  const hourMap = transformMeasures(measures, 'humidity');
+// lightStatsModalBtn.addEventListener('click', () => {
+//   const hourMap = transformMeasures(measures, 'light');
 
-  let chartLabels=[];
-  let chartData=[];
+//   let chartLabels=[];
+//   let chartData=[];
 
-  for (let [key, value] of Object.entries(hourMap)) {
-    chartLabels.push(key);
-    chartData.push(calcAverage(value));
-  }
+//   for (let [key, value] of Object.entries(hourMap)) {
+//     chartLabels.push(key);
+//     chartData.push(calcAverage(value));
+//   }
 
-  const chart = createChart(chartLabels, chartData, 'humidity');
+//   const chart = createChart(chartLabels, chartData, 'light');
 
-  clearChart(chart);
-})
+//   clearChart(chart);
+// })
 
-temperStatsModalBtn.addEventListener('click', () => {
-  const hourMap = transformMeasures(measures, 'temperature');
+// humidityStatsModalBtn.addEventListener('click', () => {
+//   // No Humidity Data => NaN
+//   const hourMap = transformMeasures(measures, 'humidity');
 
-  let chartLabels=[];
-  let chartData=[];
+//   let chartLabels=[];
+//   let chartData=[];
 
-  for (let [key, value] of Object.entries(hourMap)) {
-    chartLabels.push(key);
-    chartData.push(calcAverage(value));
-  }
+//   for (let [key, value] of Object.entries(hourMap)) {
+//     chartLabels.push(key);
+//     chartData.push(calcAverage(value));
+//   }
 
-  const chart = createChart(chartLabels, chartData, 'temperature');
+//   const chart = createChart(chartLabels, chartData, 'humidity');
 
-  clearChart(chart);
-})
+//   clearChart(chart);
+// })
+
+// temperStatsModalBtn.addEventListener('click', () => {
+//   const hourMap = transformMeasures(measures, 'temperature');
+
+//   let chartLabels=[];
+//   let chartData=[];
+
+//   for (let [key, value] of Object.entries(hourMap)) {
+//     chartLabels.push(key);
+//     chartData.push(calcAverage(value));
+//   }
+
+//   const chart = createChart(chartLabels, chartData, 'temperature');
+
+//   clearChart(chart);
+// })
 
 
 /*===Charts Implementation===*/
