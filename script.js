@@ -1,5 +1,6 @@
 /*===Modal Implementation===*/
 // Get the #moistureStatsModal modal
+
 let statsModal = document.getElementById("statsModal"); //TODO: Implement this
 
 // Get the button that opens the modal
@@ -13,17 +14,25 @@ let statsModalCloseBtn = document.getElementById("statsModalCloseBtn"); //TODO: 
 
 // When the user clicks the moistureStatsModalBtn button, open the modal (use css property display:none / display:block)
 //TODO: Implement this
-moistureStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block')
+moistureStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+lightStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+humidityStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+temperStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
+
 
 // When the user clicks on <span> (x) ("moistureStatsModalCloseBtn"), close the modal
 //TODO: Implement this
-statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none')
+statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none');
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
+
+function clearChart(chart) {
+  window.onclick = function (event) {
     if (event.target == statsModal) {
         statsModal.style.display = "none";
+        chart.destroy();
     }
+  }
 }
 
 moistureStatsModalBtn.addEventListener('click', () => {
@@ -37,8 +46,60 @@ moistureStatsModalBtn.addEventListener('click', () => {
     chartData.push(calcAverage(value));
   }
 
-  createChart(chartLabels, chartData, 'moisture');
+  const chart = createChart(chartLabels, chartData, 'moisture');
+
+  clearChart(chart);
 })
+
+lightStatsModalBtn.addEventListener('click', () => {
+  const hourMap = transformMeasures(measures, 'light');
+
+  let chartLabels=[];
+  let chartData=[];
+
+  for (let [key, value] of Object.entries(hourMap)) {
+    chartLabels.push(key);
+    chartData.push(calcAverage(value));
+  }
+
+  const chart = createChart(chartLabels, chartData, 'light');
+
+  clearChart(chart);
+})
+
+humidityStatsModalBtn.addEventListener('click', () => {
+  // No Humidity Data => NaN
+  const hourMap = transformMeasures(measures, 'humidity');
+
+  let chartLabels=[];
+  let chartData=[];
+
+  for (let [key, value] of Object.entries(hourMap)) {
+    chartLabels.push(key);
+    chartData.push(calcAverage(value));
+  }
+
+  const chart = createChart(chartLabels, chartData, 'humidity');
+
+  clearChart(chart);
+})
+
+temperStatsModalBtn.addEventListener('click', () => {
+  const hourMap = transformMeasures(measures, 'temperature');
+
+  let chartLabels=[];
+  let chartData=[];
+
+  for (let [key, value] of Object.entries(hourMap)) {
+    chartLabels.push(key);
+    chartData.push(calcAverage(value));
+  }
+
+  const chart = createChart(chartLabels, chartData, 'temperature');
+
+  clearChart(chart);
+})
+
 
 /*===Charts Implementation===*/
 //We use Chart.js to generate a line chart of the past hours: https://www.chartjs.org/docs/latest/charts/line.html
@@ -284,7 +345,7 @@ function calcAverage(arr){
 //Chart.js Code
 
 function createChart(chartLabels, chartData, type) {
-  new Chart(document.getElementById("chart"), {
+  return new Chart(document.getElementById("chart"), {
       type: 'line',
       data: {
           labels: chartLabels,
