@@ -40,25 +40,34 @@ h1, h2, h3, h4, h5, h6 {
 .main {
   flex: 1 1 auto;
   margin: 0 auto;
+  text-align: center;
 }
 
 .header {
   background-color: #508068;
   padding: 10px 20px;
   color: #fff;
-  min-height: 100px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-h1 {
-  font-size: 48px;
+.header p {
+  font-size: 25px;
   font-weight: 600;
 }
 
+h1 {
+  font-size: 45px;
+  font-weight: 600;
+  color: #315041;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
 .main {
-  padding: 70px 15px 20px 15px;
+  padding: 70px 0 20px;
 }
 
 .dashboard_items {
@@ -93,4 +102,18 @@ h1 {
 
 img {
   max-width: 100%;
+}
+
+@media (max-width: 992px) {
+  .dashboard__column {
+    flex: 0 1 calc(100% / 2);
+    padding: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard__column {
+    flex: 0 1 100%;
+    padding: 10px 0;
+  }
 }
