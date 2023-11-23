@@ -1,38 +1,28 @@
 /*===Modal Implementation===*/
-// Get the #moistureStatsModal modal
+// Get the #statsModal modal
 
-let statsModal = document.getElementById("statsModal"); //TODO: Implement this
+let statsModal = document.getElementById("statsModal"); 
 
 let statsHeader = document.querySelector(".modal-header>h2");
 
 // Get the button that opens the modal
-let moistureStatsModalBtn = document.getElementById("openMoistureStatsBtn"); //TODO: Implement this
+let moistureStatsModalBtn = document.getElementById("openMoistureStatsBtn");
 let lightStatsModalBtn = document.getElementById("openLightStatsBtn");
 let humidityStatsModalBtn = document.getElementById("openHumidityStatsBtn");
 let temperStatsModalBtn = document.getElementById("openTemperStatsBtn");
 
 const statsModalBtns = [moistureStatsModalBtn, lightStatsModalBtn, humidityStatsModalBtn, temperStatsModalBtn];
 
-// Get the <span> element that closes the moistureStatsModal
-let statsModalCloseBtn = document.getElementById("statsModalCloseBtn"); //TODO: Implement this
+// Get the <span> element that closes the statsModal
+let statsModalCloseBtn = document.getElementById("statsModalCloseBtn");
 
-// When the user clicks the moistureStatsModalBtn button, open the modal (use css property display:none / display:block)
-//TODO: Implement this
-
+// When the user clicks the statsModalBtn button, open the modal
 statsModalBtns.forEach(el => el.addEventListener('click', () => statsModal.style.display = 'block'));
 
-// moistureStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-// lightStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-// humidityStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-// temperStatsModalBtn.addEventListener('click', () => statsModal.style.display = 'block');
-
-
-// When the user clicks on <span> (x) ("moistureStatsModalCloseBtn"), close the modal
-//TODO: Implement this
+// When the user clicks on <span> (x), close the modal
 statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none');
 
 // When the user clicks anywhere outside of the modal, close it
-
 function clearChart(chart) {
   window.onclick = function (event) {
     if (event.target == statsModal) {
@@ -64,76 +54,10 @@ statsModalBtns.forEach((el, i) => {
   })
 })
 
-// moistureStatsModalBtn.addEventListener('click', () => {
-//   const hourMap = transformMeasures(measures, 'moisture');
-
-//   let chartLabels=[];
-//   let chartData=[];
-
-//   for (let [key, value] of Object.entries(hourMap)) {
-//     chartLabels.push(key);
-//     chartData.push(calcAverage(value));
-//   }
-
-//   const chart = createChart(chartLabels, chartData, 'moisture');
-
-//   clearChart(chart);
-// })
-
-// lightStatsModalBtn.addEventListener('click', () => {
-//   const hourMap = transformMeasures(measures, 'light');
-
-//   let chartLabels=[];
-//   let chartData=[];
-
-//   for (let [key, value] of Object.entries(hourMap)) {
-//     chartLabels.push(key);
-//     chartData.push(calcAverage(value));
-//   }
-
-//   const chart = createChart(chartLabels, chartData, 'light');
-
-//   clearChart(chart);
-// })
-
-// humidityStatsModalBtn.addEventListener('click', () => {
-//   // No Humidity Data => NaN
-//   const hourMap = transformMeasures(measures, 'humidity');
-
-//   let chartLabels=[];
-//   let chartData=[];
-
-//   for (let [key, value] of Object.entries(hourMap)) {
-//     chartLabels.push(key);
-//     chartData.push(calcAverage(value));
-//   }
-
-//   const chart = createChart(chartLabels, chartData, 'humidity');
-
-//   clearChart(chart);
-// })
-
-// temperStatsModalBtn.addEventListener('click', () => {
-//   const hourMap = transformMeasures(measures, 'temperature');
-
-//   let chartLabels=[];
-//   let chartData=[];
-
-//   for (let [key, value] of Object.entries(hourMap)) {
-//     chartLabels.push(key);
-//     chartData.push(calcAverage(value));
-//   }
-
-//   const chart = createChart(chartLabels, chartData, 'temperature');
-
-//   clearChart(chart);
-// })
-
-
 /*===Charts Implementation===*/
 //We use Chart.js to generate a line chart of the past hours: https://www.chartjs.org/docs/latest/charts/line.html
 
-//This is an array of raw measures from the sensor. We are now interested in the moisture measures only
+//This is an array of raw measures from the sensor.
 let measures = [
     {
         timeISO: "2023-11-17T00:08:16.892Z",
@@ -297,38 +221,14 @@ let measures = [
     }
 ]
 
-
 /*
-We now want to visualize the moisture readings on a line graph. Please carefuly read the docs: https://www.chartjs.org/docs/latest/charts/line.html
-As you might have seen, we need an array for the data points and an array for labels. We need to extract both from the raw data
-*/
-
-/*
-We want to show the moisture of each hour of the day. Thus, the first step is to sum up data belonging to the same hour.
+We want to show the measures of each hour of the day. Thus, the first step is to sum up data belonging to the same hour.
 There might be 0,1,2,3,...n measures for each hour of the day. Idea: Group them first. In the end, visualize the average.
 */
 
 //We can use a hashmap to do this:
 //Idea: {"16-11-23-1": [50,44]} for 16.11.2023, at 1am
-//TODO: Iterate over the raw measures, extract moisture and store it in the hourMap like this: {"16-11-23-1": [50,44]}
-
-// var hourMap = {};
-
-// measures.forEach(el => {
-//   const date = new Date(el.timeISO);
-//   const hour = date.getHours();
-//   const year = date.getFullYear();
-//   const month = date.getMonth();
-//   const day = date.getDate();
-
-//   const key = `${day}-${month}-${year}-${hour}`;
-
-//   if (hourMap[key] === undefined) {
-//     hourMap[key] = [el.moisture];
-//   } else {
-//     hourMap[key].push(el.moisture);
-//   }
-// })
+//Extract an array for the data points and an array for labels from the raw data
 
 function transformMeasures(data, type) {
   let res = {};
@@ -352,26 +252,9 @@ function transformMeasures(data, type) {
   return res;
 }
 
-
-//Create Labels for the graph
-//let chartLabels=[];
-//Data for the graph:
-//let chartData=[];
-
-//Implement a function to calculate the average of an array
 function calcAverage(arr){
-    //TODO: Implement me
     return arr.reduce((a, b) => a+b, 0) / arr.length;
 }
-
-
-//Iterating over the <key,value> pairs topush keys to labels and measure averages to data
-// for (let [key, value] of Object.entries(hourMap)) {
-//     chartLabels.push(key);
-//     chartData.push(calcAverage(value));
-// }
-
-//Chart.js Code
 
 function createChart(chartLabels, chartData, type) {
   return new Chart(document.getElementById("chart"), {
