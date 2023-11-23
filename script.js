@@ -1,4 +1,5 @@
 import { measures } from "./data.js";
+import { StatsModalBtn } from "./statsModuleBtn.js";
 
 /*===Modal Implementation===*/
 // Get the #statsModal modal
@@ -13,13 +14,18 @@ let lightStatsModalBtn = document.getElementById("openLightStatsBtn");
 let humidityStatsModalBtn = document.getElementById("openHumidityStatsBtn");
 let temperStatsModalBtn = document.getElementById("openTemperStatsBtn");
 
-const statsModalBtns = [moistureStatsModalBtn, lightStatsModalBtn, humidityStatsModalBtn, temperStatsModalBtn];
+const statsModalBtns = [
+  new StatsModalBtn(moistureStatsModalBtn, "moisture"),
+  new StatsModalBtn(lightStatsModalBtn, "light"),
+  new StatsModalBtn(humidityStatsModalBtn, "humidity"),
+  new StatsModalBtn(temperStatsModalBtn, "temperature")
+];
 
 // Get the <span> element that closes the statsModal
 let statsModalCloseBtn = document.getElementById("statsModalCloseBtn");
 
 // When the user clicks the statsModalBtn button, open the modal
-statsModalBtns.forEach(el => el.addEventListener('click', () => statsModal.style.display = 'block'));
+statsModalBtns.forEach(el => el.node.addEventListener('click', () => statsModal.style.display = 'block'));
 
 // When the user clicks on <span> (x), close the modal
 statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none');
@@ -35,10 +41,9 @@ function clearChart(chart) {
 }
 
 statsModalBtns.forEach((el, i) => {
-  const types = ['moisture', 'light', 'humidity', 'temperature'];
 
-  el.addEventListener('click', () => {
-    const hourMap = transformMeasures(measures, types[i]);
+  el.node.addEventListener('click', () => {
+    const hourMap = transformMeasures(measures, el.type);
   
     let chartLabels=[];
     let chartData=[];
@@ -48,9 +53,9 @@ statsModalBtns.forEach((el, i) => {
       chartData.push(calcAverage(value));
     }
 
-    statsHeader.innerText = `${types[i]} stats`
+    statsHeader.innerText = `${el.type} stats`
   
-    const chart = createChart(chartLabels, chartData, types[i]);
+    const chart = createChart(chartLabels, chartData, el.type);
   
     clearChart(chart);
   })
