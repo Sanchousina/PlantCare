@@ -1,5 +1,6 @@
 import { measures } from "./data.js";
 import { StatsModalBtn } from "./statsModuleBtn.js";
+import { Diagram } from "./Diagram.js";
 
 /*===Modal Implementation===*/
 // Get the #statsModal modal
@@ -54,10 +55,12 @@ statsModalBtns.forEach((el, i) => {
     }
 
     statsHeader.innerText = `${el.type} stats`
+
+    const diagram = new Diagram(measures, chartLabels, chartData, el.type, `${el.type} over time`, "#00ff00", "line", "chart");
+    clearChart(diagram.diagram);
   
-    const chart = createChart(chartLabels, chartData, el.type);
-  
-    clearChart(chart);
+    // const chart = createChart(chartLabels, chartData, el.type);
+    // clearChart(chart);
   })
 })
 
@@ -99,26 +102,26 @@ function calcAverage(arr){
     return arr.reduce((a, b) => a+b, 0) / arr.length;
 }
 
-function createChart(chartLabels, chartData, type) {
-  return new Chart(document.getElementById("chart"), {
-      type: 'line',
-      data: {
-          labels: chartLabels,
-          datasets: [{
-              data: chartData,
-              label: type,
-              borderColor: "#00dd11",
-              fill: false
-          }]
-      },
-      options: {
-          title: {
-              display: true,
-              text: `${type} over time`
-          },
+// function createChart(chartLabels, chartData, type) {
+//   return new Chart(document.getElementById("chart"), {
+//       type: 'line',
+//       data: {
+//           labels: chartLabels,
+//           datasets: [{
+//               data: chartData,
+//               label: type,
+//               borderColor: "#00dd11",
+//               fill: false
+//           }]
+//       },
+//       options: {
+//           title: {
+//               display: true,
+//               text: `${type} over time`
+//           },
   
-          responsive: true,
-          maintainAspectRatio: false
-      }
-  });
-}
+//           responsive: true,
+//           maintainAspectRatio: false
+//       }
+//   });
+// }
