@@ -1,6 +1,7 @@
 import { measures } from "./data.js";
 import { StatsModalBtn } from "./statsModuleBtn.js";
 import { Diagram } from "./Diagram.js";
+import { calcAverage } from "./utility.js";
 
 /*===Modal Implementation===*/
 // Get the #statsModal modal
@@ -29,7 +30,7 @@ let statsModalCloseBtn = document.getElementById("statsModalCloseBtn");
 statsModalBtns.forEach(el => el.node.addEventListener('click', () => statsModal.style.display = 'block'));
 
 // When the user clicks on <span> (x), close the modal
-statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none');
+statsModalCloseBtn.addEventListener('click', () => statsModal.style.display = 'none'); // FIX: doesn't clear chart
 
 // When the user clicks anywhere outside of the modal, close it
 function clearChart(chart) {
@@ -98,9 +99,9 @@ function transformMeasures(data, type) {
   return res;
 }
 
-function calcAverage(arr){
-    return arr.reduce((a, b) => a+b, 0) / arr.length;
-}
+// function calcAverage(arr){
+//     return arr.reduce((a, b) => a+b, 0) / arr.length;
+// }
 
 // function createChart(chartLabels, chartData, type) {
 //   return new Chart(document.getElementById("chart"), {

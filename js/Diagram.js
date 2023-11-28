@@ -28,7 +28,7 @@ export class Diagram {
         options: {
             title: {
                 display: true,
-                text: `${label} over time`
+                text: label
             },
     
             responsive: true,
