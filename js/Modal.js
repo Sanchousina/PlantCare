@@ -1,8 +1,10 @@
 export class Modal {
-  constructor(modalRef, modalBtn, modalCloseBtnRef) {
+  constructor(modalRef, modalBtn, modalCloseBtnRef, type) {
     this.modal = document.getElementById(modalRef);
     this.modalBtn = modalBtn;
     this.modalCloseBtn = document.getElementById(modalCloseBtnRef);
+    this.modalHeader = this.modal.querySelector('h2');
+    this.type = type;
     this.visible = false;
 
     this.modalBtn.addEventListener('click', () => this.show());
@@ -14,6 +16,7 @@ export class Modal {
 
   show() {
     this.modal.style.display = 'block';
+    this.modalHeader.innerText = this.type[0].toUpperCase() + this.type.slice(1,) + ' Statistics';
     this.visible = true;
   }
 
