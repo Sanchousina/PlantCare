@@ -45,23 +45,10 @@ function clearChart(chart) {
 statsModalBtns.forEach((el, i) => {
 
   el.node.addEventListener('click', () => {
-    const hourMap = transformMeasures(measures, el.type);
-  
-    let chartLabels=[];
-    let chartData=[];
-  
-    for (let [key, value] of Object.entries(hourMap)) {
-      chartLabels.push(key);
-      chartData.push(calcAverage(value));
-    }
-
     statsHeader.innerText = `${el.type} stats`
 
-    const diagram = new Diagram(measures, chartLabels, chartData, el.type, `${el.type} over time`, "#00ff00", "line", "chart");
+    const diagram = new Diagram(measures, el.type, `${el.type} over time`, "#00ff00", "line", "chart");
     clearChart(diagram.diagram);
-  
-    // const chart = createChart(chartLabels, chartData, el.type);
-    // clearChart(chart);
   })
 })
 
@@ -76,53 +63,3 @@ There might be 0,1,2,3,...n measures for each hour of the day. Idea: Group them 
 //We can use a hashmap to do this:
 //Idea: {"16-11-23-1": [50,44]} for 16.11.2023, at 1am
 //Extract an array for the data points and an array for labels from the raw data
-
-function transformMeasures(data, type) {
-  let res = {};
-
-  data.forEach(el => {
-    const date = new Date(el.timeISO);
-    const hour = date.getHours();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-  
-    const key = `${day}-${month}-${year}-${hour}`;
-  
-    if (res[key] === undefined) {
-      res[key] = [el[type]];
-    } else {
-      res[key].push(el[type]);
-    }
-  })
-
-  return res;
-}
-
-// function calcAverage(arr){
-//     return arr.reduce((a, b) => a+b, 0) / arr.length;
-// }
-
-// function createChart(chartLabels, chartData, type) {
-//   return new Chart(document.getElementById("chart"), {
-//       type: 'line',
-//       data: {
-//           labels: chartLabels,
-//           datasets: [{
-//               data: chartData,
-//               label: type,
-//               borderColor: "#00dd11",
-//               fill: false
-//           }]
-//       },
-//       options: {
-//           title: {
-//               display: true,
-//               text: `${type} over time`
-//           },
-  
-//           responsive: true,
-//           maintainAspectRatio: false
-//       }
-//   });
-// }
