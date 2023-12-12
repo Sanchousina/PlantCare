@@ -22,3 +22,15 @@ const modals = statsModalBtns.map(
 const diagrams = statsModalBtns.map((el, i) => {
   return new Diagram(measures, el.type, `${el.type} over time`, "#00ff00", "line", `${el.type}Chart`);
 });
+
+//TODO: Create "newData" event when new data is available. Send the "measures" array with the event
+const newDataEvent = new CustomEvent('newData', {
+  detail: measures, 
+  bubbles: true
+});
+
+//TODO: Disptach the event
+document.dispatchEvent(newDataEvent);
+
+//TODO: Wait 10secs, then create another "newData" event, containing the measures array cut in half. Dispatch the event
+
