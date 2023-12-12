@@ -10,11 +10,12 @@ export class Diagram {
     this.chartType = chartType;
     this.#setLabelsAndData(this.hourMap);
     this.chart = this.#createChart(this.chartLabels, this.chartData, this.chartType, this.chartLabel, this.chartWrapper, this.chartColor);
-    console.log(this.chartLabels, this.chartData);
-    this.#updateChart(this.chartLabels, this.chartData);
 
     document.addEventListener('newData', (e) => {
-      console.log(chartRef + ' received ' + e)
+      console.log('Listening to newData event')
+      this.hourMap = this.#createHourMap(e.detail, this.measuresType);
+      this.#setLabelsAndData(this.hourMap);
+      this.#updateChart(this.chartLabels, this.chartData);
     });
   }
 
