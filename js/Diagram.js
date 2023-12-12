@@ -3,16 +3,22 @@ import { calcAverage } from "./utility.js";
 export class Diagram {
   constructor(rawMeasures, measureType, chartLabel, chartColor, chartType, chartRef) {
     this.measuresType = measureType;
-    this.measures = this.transformMeasures(rawMeasures, this.measuresType);
+    this.hourMap = this.#createHourMap(rawMeasures, this.measuresType);
     this.chartWrapper = document.getElementById(chartRef);
     this.chartLabel = chartLabel;
     this.chartColor = chartColor;
     this.chartType = chartType;
-    this.setLabelsAndData(this.measures);
-    this.diagram = this.createChart(this.chartLabels, this.chartData, this.chartType, this.chartLabel, this.chartWrapper, this.chartColor);
+    this.#setLabelsAndData(this.hourMap);
+    this.chart = this.#createChart(this.chartLabels, this.chartData, this.chartType, this.chartLabel, this.chartWrapper, this.chartColor);
+    console.log(this.chartLabels, this.chartData);
+    this.#updateChart(this.chartLabels, this.chartData);
+
+    document.addEventListener('newData', (e) => {
+      console.log(chartRef + ' received ' + e)
+    });
   }
 
-  createChart(chartLabels, chartData, type, label, chartWrapper, color) {
+  #createChart(chartLabels, chartData, type, label, chartWrapper, color) {
     return new Chart(chartWrapper, {
         type: type,
         data: {
@@ -36,7 +42,7 @@ export class Diagram {
     });
   }
 
-  transformMeasures(data, type) {
+  #createHourMap(data, type) {
     let res = {};
   
     data.forEach(el => {
@@ -58,7 +64,13 @@ export class Diagram {
     return res;
   }
 
-  setLabelsAndData(hourMap) {
+  #updateChart(newLabels, newData) {
+    this.chart.data.datasets[0].data = newData;
+    this.chart.data.labels = newLabels;
+    this.chart.update();
+  }
+
+  #setLabelsAndData(hourMap) {
     this.chartLabels = [];
     this.chartData=[];
   
