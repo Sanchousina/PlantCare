@@ -1,7 +1,7 @@
 export class Modal {
   constructor(modalRef, modalBtn, modalCloseBtnRef, type) {
     this.modal = document.getElementById(modalRef);
-    this.modalBtn = modalBtn;
+    this.modalBtn = document.getElementById(modalBtn);
     this.modalCloseBtn = document.getElementById(modalCloseBtnRef);
     this.modalHeader = this.modal.querySelector('h2');
     this.type = type;

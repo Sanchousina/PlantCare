@@ -29,13 +29,21 @@ export class Dashboard {
     this.humidityDiagram = new Diagram(measures, "humidity", "humidity over time", 
     "#00ff00", "line", "humidityChart");
 
-    //TODO Register for the "newData" event
+    this.measures = [];
+
+    //Register for the "newData" event
+    document.addEventListener('newData', (e) => {
+      console.log('Listening to newData event in Dashboard');
+      this.measures = e.detail;
+      console.log(this.#getNewestMeasure());
+    });
   }
 
-  //TODO Implement a private method 'getNewestMeasure' which filters for the most recent measure and returns it
-    //Use reduce to implement this.
     #getNewestMeasure() {
-        
+      const newestMeasure = this.measures.reduce((acc, el) => {
+        return new Date(acc.timeISO) > new Date(el.timeISO) ? acc : el;
+      })
+      return newestMeasure;
     }
 
 
