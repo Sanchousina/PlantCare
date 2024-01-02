@@ -56,7 +56,10 @@ export class Dashboard {
     //Returns a percentage of how many measurements were inacceptable
     //Use filter to implement this
     #getInacceptableMeasurementQuota(upperThreshold, lowerThreshold, measureType){
-        return -100;
+        let filteredData = this.measures.filter(el => {
+          return el[measureType] < lowerThreshold || el[measureType] > upperThreshold;
+        });
+        return (filteredData.length/this.measures.length )* 100;
     }
 
     //TODO Implement a private method 'getMinMeasure' which returns the minimum measure for a certain measureType
