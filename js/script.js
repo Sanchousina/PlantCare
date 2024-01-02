@@ -24,6 +24,8 @@ const statsModalBtns = [
 //   return new Diagram(measures, el.type, `${el.type} over time`, "#00ff00", "line", `${el.type}Chart`);
 // });
 
+let dashboard= new Dashboard("moisturePanel", "lightPanel", "temperaturePanel", "humidityPanel");
+
 //Create "newData" event when new data is available. Send the "measures" array with the event
 const newDataEvent = new CustomEvent('newData', {
   detail: measures, 
@@ -43,5 +45,4 @@ setTimeout(() => {
   document.dispatchEvent(newDataEvent);
 }, 10000)
 
-let dashboard= new Dashboard("moisturePanel", "lightPanel", "temperaturePanel", "humidityPanel");
 

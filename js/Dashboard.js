@@ -26,7 +26,7 @@ export class Dashboard {
 
     this.humidityModal = new Modal("humidityStatsModal", "openHumidityStatsBtn", 
     "humidityStatsModalCloseBtn", "humidity");
-    this.humidityDiagram = new Diagram(measures, "humidity", "humidity over time", 
+    this.humidityDiagram = new Diagram(measures, "conductivity", "humidity over time", 
     "#00ff00", "line", "humidityChart");
 
     this.measures = [];
@@ -36,11 +36,15 @@ export class Dashboard {
       console.log('Listening to newData event in Dashboard');
       this.measures = e.detail;
       console.log(this.#getNewestMeasure());
+      //console.log(this.#getMinMeasure("moisture"));
     });
   }
 
     #getNewestMeasure() {
       const newestMeasure = this.measures.reduce((acc, el) => {
+        console.log(new Date(acc.timeISO));
+        console.log(new Date(el.timeISO));
+        console.log(new Date(acc.timeISO) > new Date(el.timeISO));
         return new Date(acc.timeISO) > new Date(el.timeISO) ? acc : el;
       })
       return newestMeasure;
@@ -58,7 +62,10 @@ export class Dashboard {
     //TODO Implement a private method 'getMinMeasure' which returns the minimum measure for a certain measureType
     //Use reduce to implement this.
     #getMinMeasure(measureType) {
-       return {}
+      const minMeasure = this.measures.reduce((acc, el) => {
+        return acc[measureType] < el[measureType] ? acc : el;
+      })
+      return minMeasure;
     }
 
     //TODO Implement a private method 'getMaxMeasure' which returns the max measure for a certain measureType
