@@ -12,7 +12,6 @@ export class Diagram {
     this.chart = this.#createChart(this.chartLabels, this.chartData, this.chartType, this.chartLabel, this.chartWrapper, this.chartColor);
 
     document.addEventListener('newData', (e) => {
-      console.log('Listening to newData event in Diagram')
       this.hourMap = this.#createHourMap(e.detail, this.measuresType);
       this.#setLabelsAndData(this.hourMap);
       this.#updateChart(this.chartLabels, this.chartData);

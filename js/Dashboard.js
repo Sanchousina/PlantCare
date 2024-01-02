@@ -1,4 +1,3 @@
-import { measures } from "./data.js";
 import { Diagram } from "./Diagram.js";
 import { Modal } from "./Modal.js";
 
@@ -8,32 +7,29 @@ export class Dashboard {
     this.lightPanel = document.getElementById(lightPanelRef);
     this.temperaturePanel = document.getElementById(temperaturePanelRef);
     this.humidityPanel = document.getElementById(humidityPanelRef);
+    this.measures = [];
 
     this.moistureModal = new Modal("moistureStatsModal", "openMoistureStatsBtn", 
     "moistureStatsModalCloseBtn", "moisture");
-    this.moistureDiagram = new Diagram(measures, "moisture", "moisture over time", 
+    this.moistureDiagram = new Diagram(this.measures, "moisture", "moisture over time", 
     "#00ff00", "line", "moistureChart");
 
     this.lightModal = new Modal("lightStatsModal", "openLightStatsBtn", 
     "lightStatsModalCloseBtn", "light");
-    this.lightDiagram = new Diagram(measures, "light", "light over time", 
+    this.lightDiagram = new Diagram(this.measures, "light", "light over time", 
     "#00ff00", "line", "lightChart");
 
     this.temperatureModal = new Modal("temperatureStatsModal", "openTemperatureStatsBtn", 
     "temperatureStatsModalCloseBtn", "temperature");
-    this.temperatureDiagram = new Diagram(measures, "temperature", "temperature over time", 
+    this.temperatureDiagram = new Diagram(this.measures, "temperature", "temperature over time", 
     "#00ff00", "line", "temperatureChart");
 
     this.humidityModal = new Modal("humidityStatsModal", "openHumidityStatsBtn", 
     "humidityStatsModalCloseBtn", "humidity");
-    this.humidityDiagram = new Diagram(measures, "conductivity", "humidity over time", 
+    this.humidityDiagram = new Diagram(this.measures, "conductivity", "humidity over time", 
     "#00ff00", "line", "humidityChart");
 
-    this.measures = [];
-
-    //Register for the "newData" event
     document.addEventListener('newData', (e) => {
-      console.log('Listening to newData event in Dashboard');
       this.measures = e.detail;
       this.updateUI()
     });
@@ -46,11 +42,6 @@ export class Dashboard {
       return newestMeasure;
     }
 
-
-    //TODO Implement a private function to calculate the percentage of measurements which were below acceptable thresholds
-    //The method gets an upper and lower threshold and the measureType
-    //Returns a percentage of how many measurements were inacceptable
-    //Use filter to implement this
     #getInacceptableMeasurementQuota(upperThreshold, lowerThreshold, measureType){
         let filteredData = this.measures.filter(el => {
           return el[measureType] < lowerThreshold || el[measureType] > upperThreshold;
@@ -58,8 +49,6 @@ export class Dashboard {
         return (filteredData.length/this.measures.length )* 100;
     }
 
-    //TODO Implement a private method 'getMinMeasure' which returns the minimum measure for a certain measureType
-    //Use reduce to implement this.
     #getMinMeasure(measureType) {
       const minMeasure = this.measures.reduce((acc, el) => {
         return acc[measureType] < el[measureType] ? acc : el;
@@ -67,8 +56,6 @@ export class Dashboard {
       return minMeasure[measureType];
     }
 
-    //TODO Implement a private method 'getMaxMeasure' which returns the max measure for a certain measureType
-    //Use reduce to implement this.
     #getMaxMeasure(measureType) {
       const maxMeasure = this.measures.reduce((acc, el) => {
         return acc[measureType] > el[measureType] ? acc : el;
@@ -76,7 +63,6 @@ export class Dashboard {
       return maxMeasure[measureType];
     }
  
-    //TODO Implement a method to update the UI (show most recent measure on the panels, min/max values, last update, percentage of how many measure were within acceptable thresholds etc)
     updateUI() {
       this.moisturePanel.querySelector("#currMoistureValue").innerHTML = this.#getNewestMeasure().moisture + " %<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.moisturePanel.querySelector("#minAndMaxMoistureValue").innerHTML = "Min: " + this.#getMinMeasure('moisture') + "%, Max: " + this.#getMaxMeasure('moisture') + "%";
