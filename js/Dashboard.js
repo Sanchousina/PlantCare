@@ -71,7 +71,10 @@ export class Dashboard {
     //TODO Implement a private method 'getMaxMeasure' which returns the max measure for a certain measureType
     //Use reduce to implement this.
     #getMaxMeasure() {
-        return {};
+      const maxMeasure = this.measures.reduce((acc, el) => {
+        return acc[measureType] > el[measureType] ? acc : el;
+      })
+      return maxMeasure;
     }
  
     //TODO Implement a method to update the UI (show most recent measure on the panels, min/max values, last update, percentage of how many measure were within acceptable thresholds etc)
