@@ -4,10 +4,10 @@ import { Modal } from "./Modal.js";
 
 export class Dashboard {
   constructor(moisturePanelRef, lightPanelRef, temperaturePanelRef, humidityPanelRef) {
-    this.moisturePanel = document.querySelector(moisturePanelRef);
-    this.lightPanel = document.querySelector(lightPanelRef);
-    this.temperaturePane = document.querySelector(temperaturePanelRef);
-    this.humidityPanel = document.querySelector(humidityPanelRef);
+    this.moisturePanel = document.getElementById(moisturePanelRef);
+    this.lightPanel = document.getElementById(lightPanelRef);
+    this.temperaturePanel = document.getElementById(temperaturePanelRef);
+    this.humidityPanel = document.getElementById(humidityPanelRef);
 
     this.moistureModal = new Modal("moistureStatsModal", "openMoistureStatsBtn", 
     "moistureStatsModalCloseBtn", "moisture");
@@ -35,16 +35,12 @@ export class Dashboard {
     document.addEventListener('newData', (e) => {
       console.log('Listening to newData event in Dashboard');
       this.measures = e.detail;
-      console.log(this.#getNewestMeasure());
-      //console.log(this.#getMinMeasure("moisture"));
+      this.updateUI()
     });
   }
 
     #getNewestMeasure() {
       const newestMeasure = this.measures.reduce((acc, el) => {
-        console.log(new Date(acc.timeISO));
-        console.log(new Date(el.timeISO));
-        console.log(new Date(acc.timeISO) > new Date(el.timeISO));
         return new Date(acc.timeISO) > new Date(el.timeISO) ? acc : el;
       })
       return newestMeasure;
@@ -68,20 +64,30 @@ export class Dashboard {
       const minMeasure = this.measures.reduce((acc, el) => {
         return acc[measureType] < el[measureType] ? acc : el;
       })
-      return minMeasure;
+      return minMeasure[measureType];
     }
 
     //TODO Implement a private method 'getMaxMeasure' which returns the max measure for a certain measureType
     //Use reduce to implement this.
-    #getMaxMeasure() {
+    #getMaxMeasure(measureType) {
       const maxMeasure = this.measures.reduce((acc, el) => {
         return acc[measureType] > el[measureType] ? acc : el;
       })
-      return maxMeasure;
+      return maxMeasure[measureType];
     }
  
     //TODO Implement a method to update the UI (show most recent measure on the panels, min/max values, last update, percentage of how many measure were within acceptable thresholds etc)
     updateUI() {
+      this.moisturePanel.querySelector("#currMoistureValue").innerHTML = this.#getNewestMeasure().moisture + " %<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      this.moisturePanel.querySelector("#minAndMaxMoistureValue").innerHTML = "Min: " + this.#getMinMeasure('moisture') + "%, Max: " + this.#getMaxMeasure('moisture') + "%";
+      
+      this.lightPanel.querySelector("#currLightValue").innerHTML = this.#getNewestMeasure().light + " Lux<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      this.lightPanel.querySelector("#minAndMaxLightValue").innerHTML = "Min: " + this.#getMinMeasure('light') + " Lux, Max: " + this.#getMaxMeasure('light') + " Lux";
 
+      this.humidityPanel.querySelector("#currHumidValue").innerHTML = this.#getNewestMeasure().conductivity + " <br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      this.humidityPanel.querySelector("#minAndMaxHumidValue").innerHTML = "Min: " + this.#getMinMeasure('conductivity') + ", Max: " + this.#getMaxMeasure('conductivity') + "";
+
+      this.temperaturePanel.querySelector("#currTempValue").innerHTML = this.#getNewestMeasure().temperature + " °C<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      this.temperaturePanel.querySelector("#minAndMaxTempValue").innerHTML = "Min: " + this.#getMinMeasure('temperature') + "°C, Max: " + this.#getMaxMeasure('temperature') + "°C";
     }
 }
