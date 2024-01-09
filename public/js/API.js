@@ -3,7 +3,7 @@ export class API {
     setInterval(() => this.getData(), updateInterval);
   }
   async getData() {
-    const measures = await (await fetch('http://127.0.0.1:5500/data.json')).json();
+    const measures = await (await fetch('http://127.0.0.1:5500/public/data.json')).json();
 
     const newDataEvent = new CustomEvent('newData', {
       detail: measures, 
