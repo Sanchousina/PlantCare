@@ -1,9 +1,10 @@
 export class API {
-  constructor(updateInterval) {
+  constructor(updateInterval, base_url) {
+    this.base_url = base_url;
     setInterval(() => this.getData(), updateInterval);
   }
   async getData() {
-    const measures = await (await fetch('http://127.0.0.1:5500/public/data.json')).json();
+    const measures = await (await fetch(`${this.base_url}/api/measurements`)).json();
 
     const newDataEvent = new CustomEvent('newData', {
       detail: measures, 

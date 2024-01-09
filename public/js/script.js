@@ -3,7 +3,7 @@ import { API } from "./API.js";
 
 let dashboard= new Dashboard("moisturePanel", "lightPanel", "temperaturePanel", "humidityPanel");
 
-let api = new API(5000);
+let api = new API(5000, 'http://localhost:8000');
 api.getData();
 
 
