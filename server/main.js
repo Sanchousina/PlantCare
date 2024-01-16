@@ -1,8 +1,10 @@
 const fs = require('fs');
+const WebSocket = require('ws');
 const express = require('express');
 const path = require('path');
 const measurements = require('../data.json');
 const sqlite3 = require('sqlite3');
+
 const app = express();
 const db = new sqlite3.Database('./database.db');
 
@@ -102,3 +104,18 @@ app.listen(8000, () => {
 })
 
 //TODO: Implement the Websocket
+const ws = new WebSocket('ws://research.uber.space/plant-websocket', {followRedirects: true});
+
+ws.on('open', (e) => {
+  console.log('Connected to WebSocket server!');
+});
+
+ws.on('message', (data) => {
+  const message = JSON.parse(data.toString('utf-8'));
+  console.log(message);
+});
+
+ws.on('close', (e) => {
+  console.log('COnnection closed');
+})
+
