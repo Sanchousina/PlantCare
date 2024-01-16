@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS Measurement (
+  measurement_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  plant_id INTEGER NOT NULL,
+  temperature REAL NOT NULL,
+  moisture REAL NOT NULL,
+  fertility REAL NOT NULL,
+  light REAL NOT NULL,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(plant_id) REFERENCES Plant(plant_id) ON DELETE CASCADE
+)
