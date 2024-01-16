@@ -54,7 +54,6 @@ app.get('/api/plants', (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(plants);
       res.status(200).json({
         data: {
           status: 'success',
@@ -63,10 +62,38 @@ app.get('/api/plants', (req, res) => {
       })
     }
   })
-
 })
-app.get('/api/measurements/', (req, res) => {
-  res.send(measurements);
+app.post('/api/measurements', (req, res) => {
+  const query = `INSERT INTO Measurement (plant_id, temperature, moisture, fertility, light)
+                VALUES (?, ?, ?, ?, ?)`;
+  const {plant_id, temperature, moisture, fertility, light} = req.body;
+
+  db.run(query, [plant_id, temperature, moisture, fertility, light], (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(201).json({
+        data: {
+          status: 'success'
+        }
+      })
+    }
+  })
+})
+app.get('/api/measurements/:plant_id', (req, res) => {
+  const query = 'SELECT * FROM Measurement WHERE plant_id = ?';
+  db.all(query, [req.params.plant_id], (err, measurements) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        data: {
+          status: 'success',
+          data: measurements
+        }
+      })
+    }
+  })
 })
 
 // Start the server
