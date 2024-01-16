@@ -4,7 +4,7 @@ export class API {
     setInterval(() => this.getData(), updateInterval);
   }
   async getData() {
-    const measures = await (await fetch(`${this.base_url}/api/measurements`)).json();
+    const measures = await (await fetch(`${this.base_url}/measurements`)).json();
 
     const newDataEvent = new CustomEvent('newData', {
       detail: measures, 
