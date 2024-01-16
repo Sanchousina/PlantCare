@@ -48,6 +48,23 @@ app.post('/api/plants/', (req, res) => {
     }
   })
 })
+app.get('/api/plants', (req, res) => {
+  const query = 'SELECT * FROM Plant';
+  db.all(query, (err, plants) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(plants);
+      res.status(200).json({
+        data: {
+          status: 'success',
+          data: plants
+        }
+      })
+    }
+  })
+
+})
 app.get('/api/measurements/', (req, res) => {
   res.send(measurements);
 })

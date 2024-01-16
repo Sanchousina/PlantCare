@@ -1,5 +1,7 @@
+-- DROP TABLE Plant;
+
 CREATE TABLE IF NOT EXISTS Plant (
-  plaint_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  plaint_id INTEGER PRIMARY KEY,
   plant_name TEXT NOT NULL,
   temperature_min REAL NOT NULL, 
   temperature_max REAL NOT NULL,
