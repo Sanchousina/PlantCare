@@ -35,7 +35,7 @@ export class Dashboard {
     });
 
     document.addEventListener('plantInfo', (e) => {
-      console.log(e.detail)
+      this.plantInfo = e.detail;
     });
   }
 
@@ -68,16 +68,23 @@ export class Dashboard {
     }
  
     updateUI() {
-      this.moisturePanel.querySelector("#currMoistureValue").innerHTML = this.#getNewestMeasure().moisture + " %<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      //TODO: Interpet the values
+      const currentMeasure = this.#getNewestMeasure();
+
+      this.moisturePanel.querySelector("#currMoistureValue").innerHTML = currentMeasure.moisture + " %<br><small>measured on " + new Date(currentMeasure.timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.moisturePanel.querySelector("#minAndMaxMoistureValue").innerHTML = "Min: " + this.#getMinMeasure('moisture') + "%, Max: " + this.#getMaxMeasure('moisture') + "%";
+      this.moisturePanel.querySelector("#currSoilInterpret").innerHTML = currentMeasure.moisture > this.plantInfo.moisture_max ? "too wet!" : currentMeasure.moisture < this.plantInfo.moisture_min ? "too dry :(" : "perfect!";
       
       this.lightPanel.querySelector("#currLightValue").innerHTML = this.#getNewestMeasure().light + " Lux<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.lightPanel.querySelector("#minAndMaxLightValue").innerHTML = "Min: " + this.#getMinMeasure('light') + " Lux, Max: " + this.#getMaxMeasure('light') + " Lux";
+      this.lightPanel.querySelector("#currLightInterpret").innerHTML = currentMeasure.light > this.plantInfo.light_max ? "too bright!" : currentMeasure.light < this.plantInfo.light_min ? "too dark :(" : "perfect!";
 
       this.fertilityPanel.querySelector("#currFertilityValue").innerHTML = this.#getNewestMeasure().fertility + " <br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
-      this.fertilityPanel.querySelector("#minAndMaxFertilityValue").innerHTML = "Min: " + this.#getMinMeasure('conductivity') + ", Max: " + this.#getMaxMeasure('conductivity') + "";
+      this.fertilityPanel.querySelector("#minAndMaxFertilityValue").innerHTML = "Min: " + this.#getMinMeasure('fertility') + ", Max: " + this.#getMaxMeasure('fertility') + "";
+      this.fertilityPanel.querySelector("#currFertilityInterpret").innerHTML = currentMeasure.fertility > this.plantInfo.fertility_max ? "too much!" : currentMeasure.fertility < this.plantInfo.fertility_min ? "too low :(" : "perfect!";
 
       this.temperaturePanel.querySelector("#currTempValue").innerHTML = this.#getNewestMeasure().temperature + " °C<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.temperaturePanel.querySelector("#minAndMaxTempValue").innerHTML = "Min: " + this.#getMinMeasure('temperature') + "°C, Max: " + this.#getMaxMeasure('temperature') + "°C";
+      this.temperaturePanel.querySelector("#currTempInterpret").innerHTML = currentMeasure.temperature > this.plantInfo.temperature_max ? "too hot!" : currentMeasure.temperature < this.plantInfo.temperature_min ? "too cold :(" : "perfect!";
     }
 }

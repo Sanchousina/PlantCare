@@ -26,6 +26,5 @@ export class API {
     });
     
     document.dispatchEvent(newDataEvent);
-    console.log(response.data.data);
   }
 }
