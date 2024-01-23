@@ -1,31 +1,10 @@
-const fs = require('fs');
 const WebSocket = require('ws');
 const express = require('express');
 const path = require('path');
-const measurements = require('../data.json');
-const sqlite3 = require('sqlite3');
+const { db, initializeDatabase } = require('./database.js');
 
 const app = express();
-const db = new sqlite3.Database('./database.db');
-
-//TODO: Create tables, if they do not exist
-const queryCreatePlantTable = fs.readFileSync('./sqlTables/createPlantTable.sql', 'utf-8');
-const queryCreateMeasurementTable = fs.readFileSync('./sqlTables/createMeasurementTable.sql', 'utf-8');
-db.run(queryCreatePlantTable, (err) => {
-  if(err) {
-    console.log(err);
-  }else {
-    console.log('Plant Table created');
-  }
-});
-
-db.run(queryCreateMeasurementTable, (err) => {
-  if(err) {
-    console.log(err);
-  }else {
-    console.log('Mesaurement Table created');
-  }
-})
+initializeDatabase();
 
 app.use(express.json());
 //Serving static files in ./public (our frontend)
