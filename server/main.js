@@ -1,7 +1,7 @@
-const WebSocket = require('ws');
 const express = require('express');
 const path = require('path');
 const { db, initializeDatabase } = require('./database.js');
+const { setupWebSocket } = require('./websocket.js');
 
 const app = express();
 initializeDatabase();
@@ -82,19 +82,5 @@ app.listen(8000, () => {
   console.log('Server is listening');
 })
 
-//TODO: Implement the Websocket
-const ws = new WebSocket('ws://research.uber.space/plant-websocket', {followRedirects: true});
-
-ws.on('open', (e) => {
-  console.log('Connected to WebSocket server!');
-});
-
-ws.on('message', (data) => {
-  const message = JSON.parse(data.toString('utf-8'));
-  console.log(message);
-});
-
-ws.on('close', (e) => {
-  console.log('COnnection closed');
-})
+setupWebSocket();
 
