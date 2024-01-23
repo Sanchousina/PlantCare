@@ -33,6 +33,10 @@ export class Dashboard {
       this.measures = e.detail;
       this.updateUI()
     });
+
+    document.addEventListener('plantInfo', (e) => {
+      console.log(e.detail)
+    });
   }
 
     #getNewestMeasure() {
