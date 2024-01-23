@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
   })
 })
 router.get('/:plant_id', (req, res) => {
-  const query = 'SELECT * FROM Measurement WHERE plant_id = ?';
+  const query = 'SELECT *, timestamp as timeISO FROM Measurement WHERE plant_id = ?';
   db.all(query, [req.params.plant_id], (err, measurements) => {
     if (err) {
       console.log(err);
