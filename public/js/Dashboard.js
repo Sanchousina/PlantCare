@@ -2,11 +2,11 @@ import { Diagram } from "./Diagram.js";
 import { Modal } from "./Modal.js";
 
 export class Dashboard {
-  constructor(moisturePanelRef, lightPanelRef, temperaturePanelRef, humidityPanelRef) {
+  constructor(moisturePanelRef, lightPanelRef, temperaturePanelRef, fertilityPanelRef) {
     this.moisturePanel = document.getElementById(moisturePanelRef);
     this.lightPanel = document.getElementById(lightPanelRef);
     this.temperaturePanel = document.getElementById(temperaturePanelRef);
-    this.humidityPanel = document.getElementById(humidityPanelRef);
+    this.fertilityPanel = document.getElementById(fertilityPanelRef);
     this.measures = [];
 
     this.moistureModal = new Modal("moistureStatsModal", "openMoistureStatsBtn", 
@@ -24,10 +24,10 @@ export class Dashboard {
     this.temperatureDiagram = new Diagram(this.measures, "temperature", "temperature over time", 
     "#00ff00", "line", "temperatureChart");
 
-    this.humidityModal = new Modal("humidityStatsModal", "openHumidityStatsBtn", 
-    "humidityStatsModalCloseBtn", "humidity");
-    this.humidityDiagram = new Diagram(this.measures, "conductivity", "humidity over time", 
-    "#00ff00", "line", "humidityChart");
+    this.fertilityModal = new Modal("fertilityStatsModal", "openFertilityStatsBtn", 
+    "fertilityStatsModalCloseBtn", "fertility");
+    this.fertilityDiagram = new Diagram(this.measures, "conductivity", "fertility over time", 
+    "#00ff00", "line", "fertilityChart");
 
     document.addEventListener('newData', (e) => {
       this.measures = e.detail;
@@ -74,8 +74,8 @@ export class Dashboard {
       this.lightPanel.querySelector("#currLightValue").innerHTML = this.#getNewestMeasure().light + " Lux<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.lightPanel.querySelector("#minAndMaxLightValue").innerHTML = "Min: " + this.#getMinMeasure('light') + " Lux, Max: " + this.#getMaxMeasure('light') + " Lux";
 
-      this.humidityPanel.querySelector("#currHumidValue").innerHTML = this.#getNewestMeasure().fertility + " <br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
-      this.humidityPanel.querySelector("#minAndMaxHumidValue").innerHTML = "Min: " + this.#getMinMeasure('conductivity') + ", Max: " + this.#getMaxMeasure('conductivity') + "";
+      this.fertilityPanel.querySelector("#currFertilityValue").innerHTML = this.#getNewestMeasure().fertility + " <br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
+      this.fertilityPanel.querySelector("#minAndMaxFertilityValue").innerHTML = "Min: " + this.#getMinMeasure('conductivity') + ", Max: " + this.#getMaxMeasure('conductivity') + "";
 
       this.temperaturePanel.querySelector("#currTempValue").innerHTML = this.#getNewestMeasure().temperature + " °C<br><small>measured on " + new Date(this.#getNewestMeasure().timeISO).toLocaleString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: 'numeric', minute: 'numeric' }) + "</small>";
       this.temperaturePanel.querySelector("#minAndMaxTempValue").innerHTML = "Min: " + this.#getMinMeasure('temperature') + "°C, Max: " + this.#getMaxMeasure('temperature') + "°C";

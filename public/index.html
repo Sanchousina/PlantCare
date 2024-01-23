@@ -47,15 +47,15 @@
         </section>
 
         <section class="dashboard__column">
-          <div id="humidityPanel" class="column-content">
+          <div id="fertilityPanel" class="column-content">
             <div class="col_img">
               <img src="./imgs/wind.png" alt="sun icon">
             </div>
-            <h2>Humidity</h2>
-            <h3 id="currHumidValue">[value]</h3>
-            <h5 id="minAndMaxHumidValue">[value]</h5>
-            <div id="currHumidInterpret">[Interpretation of a value]</div>
-            <button class="statsBtn" id="openHumidityStatsBtn">Show Statistics</button>
+            <h2>Fertility</h2>
+            <h3 id="currFertilityValue">[value]</h3>
+            <h5 id="minAndMaxFertilityValue">[value]</h5>
+            <div id="currFertilityInterpret">[Interpretation of a value]</div>
+            <button class="statsBtn" id="openFertilityStatsBtn">Show Statistics</button>
           </div>
         </section>
 
@@ -106,17 +106,17 @@
         </div>
       </div>
 
-      <div id="humidityStatsModal" class="modal">
+      <div id="fertilityStatsModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close" id="humidityStatsModalCloseBtn">&times;</span>
+                <span class="close" id="fertilityStatsModalCloseBtn">&times;</span>
                 <h2>Stats</h2>
             </div>
             <div class="modal-body">
                 <!--Line Chart-->
                 <div class="chart-container">
-                    <canvas id="humidityChart"></canvas>
+                    <canvas id="fertilityChart"></canvas>
                 </div>
             </div>
         </div>

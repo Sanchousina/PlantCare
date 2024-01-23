@@ -5,7 +5,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const PLANT_ID = urlParams.get('plant_id') || 1;
 
-let dashboard= new Dashboard("moisturePanel", "lightPanel", "temperaturePanel", "humidityPanel");
+let dashboard= new Dashboard("moisturePanel", "lightPanel", "temperaturePanel", "fertilityPanel");
 
 let api = new API(5000, 'http://localhost:8000/api', PLANT_ID);
 
