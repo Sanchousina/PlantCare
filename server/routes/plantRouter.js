@@ -36,4 +36,20 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/:plant_id', (req, res) => {
+  const query = 'SELECT * FROM Plant WHERE plaint_id = ?';
+  db.all(query, [req.params.plant_id], (err, plant) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        data: {
+          status: 'success',
+          data: plant[0]
+        }
+      })
+    }
+  })
+})
+
 module.exports = router;
